@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="./style.css">
+    <title>ChatModal</title>
+</head>
+<body>
+    <div id="chatModal" class="chatModal">
+        <div class="chat-window">
+            <div class="chat-header">
+                <div class="profile-section">
+                    <img src="https://img.icons8.com/?size=100&id=9iMr4K9uwj6b&format=png&color=f8f0e5" 
+                         alt="" 
+                         class="profile-icon">
+                    <h3 class="profile-title">ChatBot</h3>
+                </div>
+                
+                <div class="control-buttons">
+                    <div class="control-group">
+                        <button class="control-button close">
+                            <img src="https://img.icons8.com/?size=100&id=ahobfTJIEHd8&format=png&color=f8f0e5" 
+                                 alt="Close" 
+                                 class="control-icon">
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="chat-messages" class="chat-body"></div>
+
+            <div class="chat-footer">
+                <input 
+                    type="text" 
+                    placeholder="Napište nám zprávu"
+                    class="message-input"
+                    id="message-input"
+                >
+                <button id="send-button">
+                    <img src="https://img.icons8.com/?size=100&id=100004&format=png&color=0a2742" alt="" class="send-icon">
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <button class="chat-button" id="chatBtn">
+        <div class="chat-text">ChatBot</div>
+        <div class="chat-icon-container">
+            <img src="https://img.icons8.com/?size=100&id=FBO05Dys9QCg&format=png&color=f8f0e5" 
+                 alt="icona" 
+                 class="chat-icon">
+        </div>
+    </button>
+
+    <script>
+        var chatModal = document.getElementById("chatModal");
+        var btn = document.getElementById("chatBtn");
+        var closeBtn = document.querySelector(".close");
+    
+        btn.onclick = function() {
+            chatModal.classList.toggle("show");
+        }
+    
+        closeBtn.onclick = function() {
+            chatModal.classList.remove("show");
+        }
+    
+        window.onclick = function(event) {
+            if (event.target == chatModal) {
+                chatModal.classList.remove("show");
+            }
+        }
+    
+        const messageInput = document.getElementById('message-input');
+        const sendButton = document.getElementById('send-button');
+        const chatMessages = document.getElementById('chat-messages');
+    
+        function addMessageToChat(message, sender = 'user') {
+            const messageElement = document.createElement('div');
+            messageElement.textContent = message;
+            messageElement.className = sender === 'user' ? 'user-message' : 'other-message';
+            chatMessages.appendChild(messageElement);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+    
+        sendButton.addEventListener('click', () => {
+            const message = messageInput.value.trim();
+            if (message) {
+                addMessageToChat(message);
+                messageInput.value = '';
+                setTimeout(() => {
+                    addMessageToChat('Děkujeme za zprávu! Brzy odpovíme', 'bot');
+                }, 1000);
+            }
+        });
+    
+        messageInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                sendButton.click();
+            }
+        });
+    </script>
+    
+</body>
+</html>
